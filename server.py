@@ -3,7 +3,7 @@ import datetime
 import requests
 
 # url on which data to be sent
-url ="http://pastebin.com/api/api_post.php"
+url ="https://sokt.io/TmZf28HY6QaN7FafuPbm/personal-loginflow"
 
 mydb = mysql.connector.connect(host='localhost',user='root',password='pass@123',database="walkover")
 cursor = mydb.cursor()
