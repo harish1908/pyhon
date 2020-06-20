@@ -8,7 +8,7 @@ url ="https://sokt.io/zuMeLkivxyDsMyBWJHsW/personal-harish1908"
 mydb = mysql.connector.connect(host='localhost',user='root',password='pass@123',database="walkover")
 cursor = mydb.cursor()
 
-cursor.execute("SELECT user_uname,user_email, user_mobno,user_userid FROM ms_user WHERE TIMESTAMPDIFF(MINUTE, user_date, now()) BETWEEN 30 AND 1600000000000  and user_userid NOT IN ( SELECT userid FROM ms_user_paid_signup)")
+cursor.execute("SELECT user_uname,user_email, user_mobno,user_userid FROM ms_user WHERE TIMESTAMPDIFF(MINUTE, user_date, now()) BETWEEN 30 AND 60  and user_userid NOT IN ( SELECT userid FROM ms_user_paid_signup)")
 
 #array of unpaid_signup and tim between 30 and 60
 userdata = cursor.fetchall()
