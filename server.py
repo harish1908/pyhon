@@ -3,56 +3,37 @@ import datetime
 import requests
 
 # url on which data to be sent
-url ="https://sokt.io/TmZf28HY6QaN7FafuPbm/personal-loginflow"
+url ="https://sokt.io/zuMeLkivxyDsMyBWJHsW/personal-harish1908"
 
 mydb = mysql.connector.connect(host='localhost',user='root',password='pass@123',database="walkover")
 cursor = mydb.cursor()
 
-cursor.execute("select userid from ms_user_paid_signup")
+cursor.execute("SELECT user_userid FROM ms_user WHERE TIMESTAMPDIFF(MINUTE, user_date, now()) BETWEEN 30 AND 60  and user_userid NOT IN ( SELECT userid FROM ms_user_paid_signup)")
 
-#array to store paid userid
-paid_id = cursor.fetchall()
-
-cursor.execute("select user_userid from ms_user")
-
-# array of user_userid 
+#array of unpaid_signup and tim between 30 and 60
 userid = cursor.fetchall()
 
-
-
-# list of queries
-
-userdate = "select user_date from ms_user where user_userid = %s "
+#querry
 userdata ="select user_uname,user_email, user_mobno,user_userid from ms_user where user_userid = %s"
 
 for i in range(len(userid)) :
-    ser_ele = -1
-    for j in range(len(paid_id)) :
-        if paid_id[j] == userid[i] :
-            ser_ele = j
-            break
-
-    if ser_ele < 0 :
-        cursor.execute(userdate,userid[i])
-        udate = cursor.fetchone()
-        diff = (datetime.datetime.now()-udate[0]).total_seconds()
-        if diff > 1800 :
-            cursor.execute(userdata,userid[i])
-            result = cursor.fetchone()
-            data = {
+    cursor.execute(userdata,userid[i])
+    result = cursor.fetchone()
+    data = {
                 'uname' : result[0],
                 'mail' : result[1],
                 'mob' : result[2],
                 'uid' : result[3]
             }
-            r=requests.post(url=url, data = data)
-            print(r)
+    r=requests.post(url=url, data = data)
+    print(r)        
 
-        else :
-            print("time less than 30 minutes")
 
-    else :
-        print("user has paid signup for uid  %s",userid[i])                
+
+
+
+
+             
 
 
 
